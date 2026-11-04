@@ -1,291 +1,316 @@
 :host {
-  --ink: #f4f3f1;
-  --muted: #9c9ba8;
-  --accent: #c5f467;
-  --surface: #181922;
-
   display: block;
   min-height: 100vh;
-  color: var(--ink);
-  background:
-    radial-gradient(ellipse at 15% 0%, rgb(91 74 144 / 17%), transparent 34rem),
-    #101116;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #242424;
+  background: #f3f4f6;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .catalog {
-  width: min(1120px, calc(100% - 48px));
+  width: min(900px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 68px 0 88px;
+  padding: 32px 0 48px;
 }
 
 .hero {
-  margin-bottom: 48px;
+  margin-bottom: 20px;
 }
 
 .hero-label,
 .section-label {
-  color: var(--accent);
-  font-size: 0.7rem;
-  font-weight: 750;
-  letter-spacing: 0.15em;
+  color: #666;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 .hero h1 {
-  margin: 20px 0 16px;
-  font-size: clamp(3rem, 8vw, 5.9rem);
-  font-weight: 720;
-  letter-spacing: -0.075em;
-  line-height: 0.98;
+  margin: 8px 0;
+  font-size: 2rem;
+  line-height: 1.15;
 }
 
 .hero h1 span {
-  color: var(--accent);
+  color: #555;
 }
 
-.hero > p,
-.search-copy > p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.65;
+.hero p,
+.search-copy p {
+  margin: 8px 0 0;
+  color: #666;
+}
+
+.search-panel,
+.collection {
+  padding: 20px;
+  border: 1px solid #d5d7da;
+  background: #fff;
 }
 
 .search-panel {
   display: grid;
-  grid-template-columns: 1fr minmax(270px, 0.8fr);
-  gap: 24px 40px;
-  align-items: center;
-  margin-bottom: 64px;
-  padding: 30px;
-  border: 1px solid #2b2d38;
-  border-radius: 16px;
-  background: linear-gradient(125deg, #1d1e28, #181922);
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.search-copy,
+.title-search-form,
+.price-filter-form,
+.search-panel > .search-form:nth-of-type(6),
+.search-message,
+.search-result {
+  grid-column: 1 / -1;
+}
+
+.title-search-form {
+  order: 1;
+}
+
+.search-panel > .search-form:nth-of-type(2) {
+  order: 2;
+}
+
+.search-panel > .search-form:nth-of-type(3) {
+  order: 3;
+}
+
+.price-filter-form {
+  order: 4;
+}
+
+.search-panel > .search-form:nth-of-type(6) {
+  order: 5;
+}
+
+.search-message {
+  order: 6;
+}
+
+.search-result {
+  order: 7;
 }
 
 .search-copy h2,
 .collection-heading h2 {
-  margin: 8px 0;
-  font-size: 1.55rem;
-  font-weight: 640;
-  letter-spacing: -0.04em;
+  margin: 6px 0;
+  font-size: 1.35rem;
 }
 
-.search-form label {
+.search-form label,
+.price-range-label {
   display: block;
-  margin-bottom: 8px;
-  color: #d3d2db;
-  font-size: 0.82rem;
+  margin-bottom: 6px;
+  color: #444;
+  font-size: 0.9rem;
   font-weight: 600;
 }
 
 .search-controls {
   display: flex;
-  gap: 9px;
+  gap: 8px;
 }
 
-.search-controls input {
+.search-controls input,
+.search-controls select,
+.price-controls input {
+  box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  padding: 12px 14px;
-  border: 1px solid #393b48;
-  border-radius: 8px;
-  outline: none;
-  color: var(--ink);
-  background: #111218;
+  padding: 9px 10px;
+  border: 1px solid #bfc2c6;
+  border-radius: 4px;
+  color: #242424;
+  background: #fff;
   font: inherit;
 }
 
-.search-controls input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgb(197 244 103 / 12%);
+.search-controls input:focus,
+.search-controls select:focus,
+.price-controls input:focus {
+  border-color: #555;
+  outline: 2px solid #ddd;
+}
+
+.search-controls select {
+  cursor: pointer;
 }
 
 .search-controls button {
-  display: inline-flex;
   flex: 0 0 auto;
-  align-items: center;
-  gap: 12px;
-  padding: 0 17px;
-  border: 0;
-  border-radius: 8px;
-  color: #161812;
-  background: var(--accent);
+  padding: 9px 14px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #fff;
+  background: #555;
   cursor: pointer;
   font: inherit;
-  font-size: 0.88rem;
-  font-weight: 700;
-  transition: background 150ms ease, transform 150ms ease;
 }
 
 .search-controls button:hover {
-  transform: translateY(-1px);
-  background: #d5ff82;
+  background: #333;
+}
+
+.search-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .search-controls button:focus-visible {
-  outline: 3px solid rgb(197 244 103 / 40%);
-  outline-offset: 3px;
+  outline: 2px solid #222;
+  outline-offset: 2px;
+}
+
+.search-controls.price-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.price-controls > div:nth-child(2) {
+  order: 1;
+}
+
+.price-controls > button {
+  order: 2;
 }
 
 .search-message {
-  grid-column: 1 / -1;
   margin: 0;
-  font-size: 0.9rem;
 }
 
 .error-message {
-  color: #ff9a9a;
+  color: #a32121;
 }
 
 .search-result {
   display: flex;
-  grid-column: 1 / -1;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 20px;
-  border: 1px solid rgb(197 244 103 / 23%);
-  border-radius: 10px;
-  background: rgb(197 244 103 / 5%);
+  padding: 12px;
+  border: 1px solid #ddd;
+  background: #fafafa;
 }
 
 .search-result h3 {
-  margin: 6px 0;
-  font-size: 1.2rem;
+  margin: 4px 0;
 }
 
-.search-result > div > p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.price {
-  margin: 0;
-  color: var(--accent);
-  font-size: 1.05rem;
-  font-weight: 700;
+.search-result p {
+  margin: 4px 0;
 }
 
 .collection-heading {
   display: flex;
   align-items: end;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 22px;
-}
-
-.collection-heading h2 {
-  margin-bottom: 0;
-  font-size: 2rem;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .game-count {
-  padding: 7px 11px;
-  border: 1px solid #30313b;
-  border-radius: 999px;
-  color: #c5c4ce;
-  font-size: 0.78rem;
+  color: #555;
+  font-size: 0.9rem;
 }
 
 .game-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
+  border-top: 1px solid #d5d7da;
 }
 
 .game-card {
-  min-height: 170px;
-  padding: 20px;
-  border: 1px solid #2b2d38;
-  border-radius: 12px;
-  background: var(--surface);
-  transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
-}
-
-.game-card:hover {
-  transform: translateY(-3px);
-  border-color: #555b43;
-  background: #1d1f25;
-}
-
-.card-topline,
-.card-footer {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
-  justify-content: space-between;
-}
-
-.card-topline {
-  margin-bottom: 23px;
-}
-
-.genre-tag {
-  padding: 5px 8px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: rgb(197 244 103 / 9%);
-  font-size: 0.7rem;
-  font-weight: 650;
-}
-
-.game-number {
-  color: #777987;
-  font-size: 0.78rem;
+  gap: 16px;
+  padding: 14px 8px;
+  border-bottom: 1px solid #d5d7da;
+  background: #fff;
 }
 
 .game-card h3 {
-  margin: 0 0 6px;
-  font-size: 1.08rem;
-  font-weight: 630;
-  letter-spacing: -0.02em;
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  font-size: 1rem;
 }
 
-.platform {
-  margin: 0 0 19px;
-  color: var(--muted);
-  font-size: 0.85rem;
+.card-topline {
+  grid-column: 2;
+  grid-row: 1;
+  color: #666;
+  font-size: 0.9rem;
 }
 
+.genre-tag {
+  color: inherit;
+}
+
+.game-number,
 .card-arrow {
-  color: #777987;
-  font-size: 1.1rem;
+  display: none;
+}
+
+.card-footer {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.price {
+  margin: 0;
+  font-weight: 700;
 }
 
 .empty-state {
-  padding: 32px;
-  border: 1px dashed #393b48;
-  border-radius: 12px;
-  color: var(--muted);
-  text-align: center;
+  padding: 18px 8px;
+  color: #666;
 }
 
-@media (max-width: 640px) {
-  .catalog {
-    width: calc(100% - 32px);
-    padding: 46px 0 60px;
-  }
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
 
-  .hero {
-    margin-bottom: 34px;
+@media (max-width: 600px) {
+  .catalog {
+    width: calc(100% - 24px);
+    padding: 20px 0 32px;
   }
 
   .search-panel {
     grid-template-columns: 1fr;
-    gap: 22px;
-    margin-bottom: 46px;
-    padding: 22px;
+    padding: 16px;
   }
 
-  .game-grid {
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  .search-copy,
+  .title-search-form,
+  .price-filter-form,
+  .search-panel > .search-form:nth-of-type(6) {
+    grid-column: 1;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .game-card,
-  .search-controls button {
-    transition: none;
+  .search-controls.price-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .game-card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 12px;
+  }
+
+  .game-card h3 {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .card-topline {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .card-footer {
+    grid-column: 2;
+    grid-row: 1 / 3;
   }
 }

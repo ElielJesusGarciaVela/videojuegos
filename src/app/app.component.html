@@ -1,25 +1,98 @@
 <main class="catalog">
   <header class="hero">
-    <span class="hero-label">THE GAME COLLECTION</span>
-    <h1>Find your next<br /><span>great adventure.</span></h1>
-    <p>Explore the collection and discover a new favorite.</p>
+    <span class="hero-label">CATÁLOGO DE VIDEOJUEGOS</span>
+    <h1>Catálogo de<br /><span>videojuegos.</span></h1>
+    <p>Busca y filtra videojuegos por título, género, plataforma o precio.</p>
   </header>
 
   <section class="search-panel" aria-labelledby="search-title">
     <div class="search-copy">
-      <span class="section-label">QUICK LOOKUP</span>
-      <h2 id="search-title">Search by game ID</h2>
-      <p>Enter a game's ID to see its details.</p>
+      <span class="section-label">CATÁLOGO</span>
+      <h2 id="search-title">Buscar videojuegos</h2>
+      <p>Busca un título o filtra la lista.</p>
     </div>
-    <select (change)="onGenreChange($event)">
-      <option value="">Todos</option>
-      <option value="RPG">RPG</option>
-      <option value="Action">Action</option>
-      <option value="Strategy">Strategy</option>
-    </select>
+    <div class="search-form">
+      <label for="genre-select">Género</label>
+      <div class="search-controls">
+        <select
+          #genreSelect
+          id="genre-select"
+          (change)="onGenreChange(genreSelect.value)"
+        >
+          <option value="">Todos</option>
+          <option value="Action">Action</option>
+          <option value="Adventure">Adventure</option>
+          <option value="RPG">RPG</option>
+          <option value="Racing">Racing</option>
+          <option value="Simulation">Simulation</option>
+          <option value="Sports">Sports</option>
+          <option value="Strategy">Strategy</option>
+        </select>
+      </div>
+    </div>
+    <div class="search-form">
+      <label for="platform-select">Plataforma</label>
+      <div class="search-controls">
+        <select
+          #platformSelect
+          id="platform-select"
+          (change)="onPlatformChange(platformSelect.value)"
+        >
+          <option value="">Todas</option>
+          <option value="PC">PC</option>
+          <option value="PlayStation">PlayStation</option>
+          <option value="Xbox">Xbox</option>
+          <option value="Switch">Switch</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="search-form price-filter-form">
+      <span class="price-range-label">Precio</span>
+      <div class="search-controls price-controls">
+        <div>
+          <label for="price-min">Precio mínimo</label>
+          <input #minPrice id="price-min" type="number" min="0" step="0.01" />
+        </div>
+        <div>
+          <label for="price-max">Precio máximo</label>
+          <input #maxPrice id="price-max" type="number" min="0" step="0.01" />
+        </div>
+        <button type="button" (click)="onPriceFilter(minPrice.value, maxPrice.value)">
+          Aplicar filtros
+        </button>
+      </div>
+    </div>
+
+    <div class="search-form title-search-form">
+      <label for="title-search">Buscar título</label>
+      <div class="search-controls">
+        <input
+          #titleSearch
+          id="title-search"
+          type="search"
+          placeholder="Ej. Racing"
+          (keyup.enter)="onSearchGames(titleSearch.value, searchScopeSelect.value === 'all')"
+        />
+        <select
+          #searchScopeSelect
+          aria-label="Search scope"
+          (change)="onSearchGames(titleSearch.value, searchScopeSelect.value === 'all')"
+        >
+          <option value="title">Solo título</option>
+          <option value="all">Todos los campos</option>
+        </select>
+        <button
+          type="button"
+          (click)="onSearchGames(titleSearch.value, searchScopeSelect.value === 'all')"
+        >
+          Buscar <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
 
     <div class="search-form">
-      <label for="game-id">Game ID</label>
+      <label for="game-id">Buscar por ID</label>
       <div class="search-controls">
         <input
           #gameIdInput
@@ -27,11 +100,11 @@
           type="number"
           min="1"
           step="1"
-          placeholder="e.g. 1"
+          placeholder="Ej. 1"
           (keyup.enter)="onBuscarId(gameIdInput.value)"
         />
         <button type="button" (click)="onBuscarId(gameIdInput.value)">
-          Search <span aria-hidden="true">→</span>
+          Buscar <span aria-hidden="true">→</span>
         </button>
       </div>
     </div>
@@ -50,7 +123,7 @@
             {{ game.platform }}
           </p>
         </div>
-        <p class="price">{{ game.price | currency }}</p>
+        <p class="price">{{ game.price | currency:'EUR' }}</p>
       </article>
     }
   </section>
@@ -58,31 +131,48 @@
   <section class="collection" aria-labelledby="collection-title">
     <div class="collection-heading">
       <div>
-        <span class="section-label">PICK YOUR PLAY</span>
-        <h2 id="collection-title">The collection</h2>
+        <span class="section-label">RESULTADOS</span>
+        <h2 id="collection-title">Videojuegos</h2>
       </div>
-      <span class="game-count">{{ games.length }} games</span>
+      <span class="game-count">Registros encontrados: {{ totalItems }}</span>
     </div>
 
-    @if (games.length > 0) {
+    @if (filterError) {
+      <p class="empty-state error-message" role="alert">{{ filterError }}</p>
+    } @else if (games.length > 0) {
       <div class="game-grid">
         @for (game of games; track game.id) {
           <article class="game-card">
             <div class="card-topline">
-              <span class="genre-tag">{{ game.genre }}</span>
+              <span class="genre-tag">{{ game.genre }} · {{ game.platform }}</span>
               <span class="game-number">#{{ game.id }}</span>
             </div>
             <h3>{{ game.title }}</h3>
-            <p class="platform">{{ game.platform }}</p>
             <div class="card-footer">
-              <span class="price">{{ game.price | currency }}</span>
+              <span class="price">{{ game.price | currency:'EUR' }}</span>
               <span class="card-arrow" aria-hidden="true">↗</span>
             </div>
           </article>
         }
       </div>
     } @else {
-      <p class="empty-state">No games are available right now.</p>
+      <p class="empty-state">No hay videojuegos disponibles.</p>
+    }
+
+    @if (totalPages > 0) {
+      <nav class="pagination search-controls" aria-label="Páginas de videojuegos">
+        <button type="button" (click)="previousPage()" [disabled]="currentPage === 1">
+          Anterior
+        </button>
+        <span>Página {{ currentPage }} de {{ totalPages }}</span>
+        <button
+          type="button"
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+        >
+          Siguiente
+        </button>
+      </nav>
     }
   </section>
 </main>

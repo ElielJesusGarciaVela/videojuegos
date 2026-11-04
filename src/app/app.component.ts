@@ -15,13 +15,21 @@ export class AppComponent implements OnInit {
   games: Game[] = [];
   gameById?: Game;
   searchError = '';
+  filterError = '';
+  selectedGenre = '';
+  selectedPlatform = '';
+  searchText = '';
+  searchAll = false;
+  selectedPriceMin = '';
+  selectedPriceMax = '';
+  currentPage = 1;
+  pageSize = 5;
+  totalItems = 0;
+  totalPages = 0;
 
   constructor(private gameService: GameService) {}
   ngOnInit(): void {
-    this.gameService.getGames().subscribe((games) => {
-      this.games = games;
-      console.log(games);
-    });
+    this.loadGames();
   }
 
   onBuscarId(id: string): void {
@@ -44,9 +52,88 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onGenreChange($event: Event) {
-    const select = event!.target as HTMLSelectElement;
-    const genre = select.value;
-    console.log(genre);
+  onGenreChange(genre: string): void {
+    this.selectedGenre = genre;
+    this.currentPage = 1;
+    this.loadGames();
+  }
+
+  onPlatformChange(platform: string): void {
+    this.selectedPlatform = platform;
+    this.currentPage = 1;
+    this.loadGames();
+  }
+
+  onSearchGames(text: string, searchAll: boolean): void {
+    this.searchText = text.trim();
+    this.searchAll = searchAll;
+    this.currentPage = 1;
+    this.loadGames();
+  }
+
+  onPriceFilter(minimum: string, maximum: string): void {
+    this.filterError = '';
+
+    if ((minimum && Number(minimum) < 0) || (maximum && Number(maximum) < 0)) {
+      this.filterError = 'Introduce precios válidos mayores o iguales a cero.';
+      return;
+    }
+
+    if (
+      (minimum && !Number.isFinite(Number(minimum))) ||
+      (maximum && !Number.isFinite(Number(maximum)))
+    ) {
+      this.filterError = 'Introduce precios válidos mayores o iguales a cero.';
+      return;
+    }
+
+    if (minimum && maximum && Number(minimum) > Number(maximum)) {
+      this.filterError = 'El precio mínimo no puede superar al máximo.';
+      return;
+    }
+
+    this.selectedPriceMin = minimum;
+    this.selectedPriceMax = maximum;
+    this.currentPage = 1;
+    this.loadGames();
+  }
+
+  loadGames(): void {
+    this.filterError = '';
+    this.gameService
+      .getGames(
+        this.currentPage,
+        this.pageSize,
+        this.selectedGenre,
+        this.selectedPlatform,
+        this.selectedPriceMin,
+        this.selectedPriceMax,
+        this.searchText,
+        this.searchAll,
+      )
+      .subscribe({
+        next: (response) => {
+          this.games = response.body ?? [];
+          this.totalItems = Number(response.headers.get('X-Total-Count') ?? 0);
+          this.totalPages = Math.ceil(this.totalItems / this.pageSize);
+        },
+        error: () => {
+          this.filterError = 'No se pudieron cargar los videojuegos con estos filtros.';
+        },
+      });
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadGames();
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadGames();
+    }
   }
 }
