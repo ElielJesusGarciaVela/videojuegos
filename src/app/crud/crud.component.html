@@ -1,0 +1,19 @@
+<h1>CRUD</h1>
+<form #gameForm="ngForm" (ngSubmit)="onSaveGame(gameForm)">
+  <label for="titleId">Título</label>
+  <input
+    id="titleId"
+    type="text"
+    name="title"
+    [(ngModel)]="this.game.title"
+    required
+    minlength="3"
+    #title="ngModel"
+   >
+
+    @if (title.errors?.['required']) {}
+
+    
+  <p>Válido: {{gameForm.valid}}</p>
+  <p>Modificado: {{gameForm.dirty}}</p>
+</form>

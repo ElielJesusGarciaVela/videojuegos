@@ -104,6 +104,10 @@
  "genre": "Simulation",
  "platform": "PC",
  "price": 21.99
- }
+ },
+    { "id": 16, "title": "Pixel Runner 2", "genre": "Platform", "platform": "PC", "price": 14.99, "stock": 12 },
+    { "id": 17, "title": "Space Colony 2", "genre": "Strategy", "platform": "PC", "price": 29.99, "stock": 8 },
+    { "id": 18, "title": "Neon Racer 2", "genre": "Racing", "platform": "PlayStation", "price": 39.99, "stock": 5 },
+    { "id": 19, "title": "Dungeon Quest 2", "genre": "RPG", "platform": "PC", "price": 24.99, "stock": 15 }
  ]
 }

@@ -2,10 +2,11 @@ import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { GameService } from './services/game.service';
 import { Game } from './models/game';
+import { CrudComponent } from './crud/crud.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, CrudComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
