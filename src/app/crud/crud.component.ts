@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input, output, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { GameService } from '../services/game.service';
 import { Game } from '../models/game';
@@ -12,16 +12,50 @@ import { Game } from '../models/game';
 export class CrudComponent {
   private gameService = inject(GameService);
 
-  game: Game = {
-    id: 0,
-    title: '',
-    genre: '',
-    platform: '',
-    price: 0,
-    stock: 0,
-  };
-  
-  onSaveGame(_t5: NgForm) {
-    throw new Error('Method not implemented.');
+  game: Game = this.emptyGame();
+  actualizaGames = output<Game>();
+  editCancelled = output<void>();
+
+  @ViewChild('gameForm') private gameForm?: NgForm;
+
+  @Input()
+  set editGame(game: Game | undefined) {
+    this.game = game ? { ...game } : this.emptyGame();
+    this.gameForm?.resetForm(this.game);
+  }
+
+  saveGame(form: NgForm) {
+    if (form.invalid || form.pending) {
+      return;
+    }
+
+    const request = this.game.id !== undefined
+      ? this.gameService.updateGame(this.game)
+      : this.gameService.postGame(this.game);
+
+    request.subscribe(savedGame => {
+      this.resetForm(form);
+      this.actualizaGames.emit(savedGame);
+    });
+  }
+
+  cancelEdit(form: NgForm): void {
+    this.resetForm(form);
+    this.editCancelled.emit();
+  }
+
+  private resetForm(form: NgForm): void {
+    this.game = this.emptyGame();
+    form.resetForm(this.game);
+  }
+
+  private emptyGame(): Game {
+    return {
+      title: '',
+      genre: '',
+      platform: '',
+      price: 0,
+      stock: 0,
+    };
   }
 }

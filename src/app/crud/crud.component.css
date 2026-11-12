@@ -1,0 +1,163 @@
+.crud-panel {
+  max-width: 48rem;
+  margin: 3rem auto;
+  padding: 1.5rem;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 1.5rem;
+  background: rgb(17 20 27 / 88%);
+}
+
+.crud-heading {
+  margin-bottom: 1.5rem;
+}
+
+.crud-eyebrow {
+  margin: 0 0 0.4rem;
+  color: #a3e635;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.crud-heading h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.crud-heading > p:last-child {
+  margin: 0.5rem 0 0;
+  color: #a1a1aa;
+  font-size: 0.85rem;
+}
+
+.crud-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.crud-field {
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+}
+
+.crud-field label {
+  color: #d4d4d8;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.crud-field input,
+.crud-field select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 0.75rem;
+  outline: none;
+  background: rgb(255 255 255 / 4%);
+  padding: 0.75rem 0.85rem;
+  color: #f4f4f5;
+  color-scheme: dark;
+  font: inherit;
+  font-size: 0.8rem;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+.crud-field input:focus,
+.crud-field select:focus {
+  border-color: rgb(190 242 100 / 50%);
+  background: rgb(255 255 255 / 6%);
+}
+
+.crud-field input::placeholder {
+  color: #71717a;
+}
+
+.crud-field .invalid-control,
+.crud-field .invalid-control:focus {
+  border-color: #fb7185;
+}
+
+.field-error {
+  margin: 0;
+  color: #fda4af;
+  font-size: 0.7rem;
+}
+
+.crud-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.crud-submit,
+.crud-cancel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 160ms ease, filter 160ms ease;
+}
+
+.crud-submit {
+  flex: 1 1 12rem;
+  border: 0;
+  background: linear-gradient(110deg, #bef264, #a3e635);
+  color: #17210d;
+}
+
+.crud-submit:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.crud-submit:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.6);
+  opacity: 0.55;
+  transform: none;
+}
+
+.crud-submit:focus-visible {
+  outline: 2px solid #d9f99d;
+  outline-offset: 3px;
+}
+
+.crud-cancel {
+  flex: 1 1 8rem;
+  border: 1px solid rgb(255 255 255 / 12%);
+  background: rgb(255 255 255 / 4%);
+  color: #d4d4d8;
+}
+
+.crud-cancel:hover {
+  border-color: rgb(255 255 255 / 25%);
+  background: rgb(255 255 255 / 8%);
+}
+
+.crud-cancel:focus-visible {
+  outline: 2px solid #d4d4d8;
+  outline-offset: 3px;
+}
+
+@media (min-width: 640px) {
+  .crud-panel {
+    padding: 2rem;
+  }
+
+  .crud-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

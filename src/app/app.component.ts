@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   pageSize = 5;
   totalItems = 0;
   totalPages = 0;
+  editGame?: Game;
 
   constructor(private gameService: GameService) {}
   ngOnInit(): void {
@@ -136,5 +137,14 @@ export class AppComponent implements OnInit {
       this.currentPage++;
       this.loadGames();
     }
+  }
+
+  onActGame(_game: Game): void {
+    this.editGame = undefined;
+    this.loadGames();
+  }
+
+  onCancelEdit(): void {
+    this.editGame = undefined;
   }
 }

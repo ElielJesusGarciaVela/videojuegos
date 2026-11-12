@@ -1,19 +1,99 @@
-<h1>CRUD</h1>
-<form #gameForm="ngForm" (ngSubmit)="onSaveGame(gameForm)">
-  <label for="titleId">Título</label>
-  <input
-    id="titleId"
-    type="text"
-    name="title"
-    [(ngModel)]="this.game.title"
-    required
-    minlength="3"
-    #title="ngModel"
-   >
+<section class="crud-panel" aria-labelledby="crud-title">
+  <div class="crud-heading">
+    <p class="crud-eyebrow">AMPLÍA TU COLECCIÓN</p>
+    <h2 id="crud-title">{{ game.id === undefined ? 'Añadir videojuego' : 'Editar videojuego' }}</h2>
+    <p>{{ game.id === undefined ? 'Completa los datos para añadir un juego al catálogo.' : 'Actualiza los datos de este juego.' }}</p>
+  </div>
 
-    @if (title.errors?.['required']) {}
+  <form #gameForm="ngForm" (ngSubmit)="saveGame(gameForm)">
+    <div class="crud-fields">
+      <div class="crud-field">
+        <label for="titleId">Título</label>
+        <input [class.invalid-control]="title.invalid && (title.dirty || title.touched)" id="titleId" name="title"
+          [(ngModel)]="game.title" minlength="3" required #title="ngModel">
+        @if (title.invalid && (title.dirty || title.touched)) {
+          @if (title.errors?.['required']) {
+            <p class="field-error">El título es obligatorio.</p>
+          }
+          @if (title.errors?.['minlength']) {
+            <p class="field-error">El título debe tener al menos 3 caracteres.</p>
+          }
+        }
+      </div>
 
-    
-  <p>Válido: {{gameForm.valid}}</p>
-  <p>Modificado: {{gameForm.dirty}}</p>
-</form>
+      <div class="crud-field">
+        <label for="genreId">Género</label>
+        <select id="genreId" name="genre" [(ngModel)]="game.genre" required #genre="ngModel">
+          <option value="">Selecciona un género</option>
+          <option value="Platform">Platform</option>
+          <option value="Strategy">Strategy</option>
+          <option value="Racing">Racing</option>
+          <option value="RPG">RPG</option>
+          <option value="Action">Action</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Simulation">Simulation</option>
+          <option value="Sports">Sports</option>
+        </select>
+        @if (genre.invalid && (genre.dirty || genre.touched)) {
+          <p class="field-error">El género es obligatorio.</p>
+        }
+      </div>
+
+      <div class="crud-field">
+        <label for="platformId">Plataforma</label>
+        <select id="platformId" name="platform" [(ngModel)]="game.platform" required #platform="ngModel">
+          <option value="">Selecciona una plataforma</option>
+          <option value="PC">PC</option>
+          <option value="PlayStation">PlayStation</option>
+          <option value="Xbox">Xbox</option>
+          <option value="Switch">Nintendo Switch</option>
+        </select>
+        @if (platform.invalid && (platform.dirty || platform.touched)) {
+          <p class="field-error">La plataforma es obligatoria.</p>
+        }
+      </div>
+
+      <div class="crud-field">
+        <label for="priceId">Precio (€)</label>
+        <input [class.invalid-control]="price.invalid && (price.dirty || price.touched)" id="priceId" type="number"
+          name="price" [(ngModel)]="game.price" required min="0.01" max="100" step="0.01" #price="ngModel">
+        @if (price.invalid && (price.dirty || price.touched)) {
+          @if (price.errors?.['required']) {
+            <p class="field-error">El precio es obligatorio.</p>
+          }
+          @if (price.errors?.['min'] || price.errors?.['max']) {
+            <p class="field-error">El precio debe estar entre 0,01 € y 100 €.</p>
+          }
+        }
+      </div>
+
+      <div class="crud-field">
+        <label for="stockId">Stock</label>
+        <input [class.invalid-control]="stock.invalid && (stock.dirty || stock.touched)" id="stockId" type="number"
+          name="stock" [(ngModel)]="game.stock" required min="0" max="999" step="1" #stock="ngModel">
+        @if (stock.invalid && (stock.dirty || stock.touched)) {
+          @if (stock.errors?.['required']) {
+            <p class="field-error">El stock es obligatorio.</p>
+          }
+          @if (stock.errors?.['min'] || stock.errors?.['max']) {
+            <p class="field-error">El stock debe estar entre 0 y 999.</p>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="crud-actions">
+      <button class="crud-submit" type="submit" [disabled]="gameForm.invalid">
+        @if (game.id !== undefined) {
+          Actualizar
+        } @else {
+          Crear
+        }
+        <span aria-hidden="true">↗</span>
+      </button>
+      @if (game.id !== undefined) {
+        <button class="crud-cancel" type="button" (click)="cancelEdit(gameForm)">Cancelar</button>
+      }
+    </div>
+  </form>
+</section>
